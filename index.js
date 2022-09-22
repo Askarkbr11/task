@@ -8,7 +8,6 @@ const customCss = fs.readFileSync((process.cwd()+"/swagger.css"), 'utf8');
 const PORT = process.env.PORT
 const DB_URL = process.env.MONGODB_CLOUD_URL
 const connectToDb = require("./config/db-config")
-const path = require('path')
 const UserRoutes = require("./routes/user")
 const TaskRoutes = require("./routes/task")
 

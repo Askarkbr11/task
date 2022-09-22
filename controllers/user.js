@@ -84,7 +84,7 @@ exports.sendOtpToEmail =async(req,res)=>{
 exports.verifyEmailOtp = async(req,res)=>{
     const {otp}  = req.body;
     const token = req.headers.cookie?.slice(USER_COOKIE.length+1)
-    if(token==undefined) 
+    if(!token) 
     return res.status(401).json({message:"token expired"})
     else{
     const decoded= jwt.verify(token,JWT_SECRET)
