@@ -39,6 +39,10 @@ exports.deleteTask = async (req,res)=>{
 
 exports.updateTask = async (req,res)=>{
     try {
+        if(req.body.status!=undefined){
+        if(req.body.status!="completed"&&req.body.status!="incomplete") 
+        return res.status(500).json({message:"invalid status"})
+        }
        let data =  await TaskModel.findOneAndUpdate({taskId:req.params.taskId},req.body,{new:true})
       if(data==null) return res.status(401).json({message:"invalid task id"})
         return res.status(201).json({message:"task successfully updated"})
