@@ -29,7 +29,8 @@ exports.createTask = async(req,res)=>{
 
 exports.deleteTask = async (req,res)=>{
     try {
-        await TaskModel.findOneAndDelete({taskId:req.params.taskId})
+      let data =  await TaskModel.findOneAndDelete({taskId:req.params.taskId})
+      console.log(data)
         return res.status(201).json({message:"task successfully deleted"})
     } catch (error) {
         return res.status(500).json({message:error.message})
@@ -38,7 +39,8 @@ exports.deleteTask = async (req,res)=>{
 
 exports.updateTask = async (req,res)=>{
     try {
-        await TaskModel.findOneAndUpdate({taskId:req.params.taskId},req.body,{new:true})
+       let data =  await TaskModel.findOneAndUpdate({taskId:req.params.taskId},req.body,{new:true})
+       console.log(data)
         return res.status(201).json({message:"task successfully updated"})
     } catch (error) {
         return res.status(500).json({message:error.message})
