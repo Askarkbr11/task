@@ -22,10 +22,12 @@ const UserModel = new Schema({
         required:true
     },
     cPassword:{
-        type:String,
+        type:String
     },
     token:{
-        type:String
+        type:[],
+        required:true,
+        default:[]
     },
     otp:{
         type:Number

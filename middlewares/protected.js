@@ -19,7 +19,9 @@ exports.Protected = async (req, res, next) => {
   }
   try {
     let decoded = jwt.verify(TOKEN, JWT_SECRET);
-    req.user = await AuthSchema.findById(decoded.id);
+    console.log(decoded)
+    req.user = await AuthSchema.findOne({email:decoded.email});
+    req.token = TOKEN;
     next();
   } catch (error) {
     return next(

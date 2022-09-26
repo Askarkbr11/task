@@ -5,6 +5,7 @@ const JWT_COOKIE_EXPIRE = process.env.JWT_COOKIE_EXPIRE
 const JWT_SECRET = process.env.JWT_SECRET
 const USER_COOKIE = process.env.USER_COOKIE
 const { Auth } = require("two-step-auth");
+const { response } = require("..");
 
 exports.registerUser  = async(req,res)=>{
     const {name,email,phone,password,cPassword} = req.body;
@@ -41,7 +42,7 @@ exports.loginUser= (req,res)=>{
                       };
                       req.user=user
                       let token =  user.generateToken(user)
-                      user.token=token
+                      user.token.splice(user.token.length,0,token)
                      await user.save() 
                       res
     .status(200)
@@ -55,8 +56,10 @@ exports.loginUser= (req,res)=>{
 
 exports.logoutUser=async(req,res)=>{
     try {
+        req.user.token = req.user.token.filter(token=>token!=req.token)
+        await req.user.save()
         res.clearCookie("auth")
-        return res.status(200).json({message:"successfully loggedout"})
+        return res.status(200).json({message:"successfully loggedout , particular token is deleted"})
     } catch (error) {
         return res.status(500).json({message:error.message})
     }
@@ -67,7 +70,7 @@ exports.sendOtpToEmail =async(req,res)=>{
     UserModel.findOne({email},async(err,user)=>{
         if(!user) return res.status(404).json({message:"email not registered"})
         if(err) throw err
-        const token = user.token
+        const token = req.token
         if(!token) return res.status(401).json({message:"please login to generate otp"})
         else{
             const decoded= jwt.verify(token,JWT_SECRET)
@@ -83,7 +86,7 @@ exports.sendOtpToEmail =async(req,res)=>{
 
 exports.verifyEmailOtp = async(req,res)=>{
     const {otp}  = req.body;
-    const token = req.headers.cookie?.slice(USER_COOKIE.length+1)
+    const token = req.token;
     if(!token) 
     return res.status(401).json({message:"token expired"})
     else{

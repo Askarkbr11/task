@@ -7,12 +7,17 @@ const TaskModel = new Schema({
     },
     status:{
         type:String,
+        enum:["incomplete","completed"],
         required:true
     },
     date:{
         type:Date,
         required:true
-    },   
+    },
+    taskId:{
+        type:Number,
+        required:true
+    }   
 },{
     timestamps:true
 })

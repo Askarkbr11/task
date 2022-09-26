@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node":"16.16.0",
-    "npm":"8.11.0"
+    "node": "16.16.0",
+    "npm": "8.11.0"
   },
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.2",
